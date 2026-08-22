@@ -1,4 +1,4 @@
-# 🎙️ Enterprise Multi-Agent Conversational Voice Receptionist
+#  Enterprise Multi-Agent Conversational Voice Receptionist
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Google ADK](https://img.shields.io/badge/Google%20ADK-1.15.0-orange.svg)](https://google.github.io/agent-development-kit/)
@@ -12,18 +12,18 @@ Designed for high-throughput, low-latency customer call centers, the service orc
 
 ---
 
-## 🏗️ System Architecture & Intent Routing
+##  System Architecture & Intent Routing
 
 The system utilizes an intent-routing multi-agent swarm topology to achieve deterministic task execution and prevent context degradation:
 
 ```mermaid
 flowchart TD
-    InboundCall([📞 Inbound Customer Phone Call]) --> Router[🧭 Router Agent\nIntent Classification & Sentiment Analysis]
+    InboundCall([📞 Inbound Customer Phone Call]) --> Router[ Router Agent\nIntent Classification & Sentiment Analysis]
     
-    Router -->|Order Tracking / Status| WISMO[📦 WISMO Specialist\nTwo-Factor 2FA Verification]
-    Router -->|Policy & Store Inquiries| FAQ[💡 FAQ Specialist\nStatic & Hybrid Knowledge Search]
-    Router -->|After-Hours / Callbacks| LeadCapture[📝 Lead & Ticket Specialist\nZendesk REST API + Google Sheets]
-    Router -->|Call Complete| Exit[👋 Exit Agent\nStructured Disconnect Protocol]
+    Router -->|Order Tracking / Status| WISMO[ WISMO Specialist\nTwo-Factor 2FA Verification]
+    Router -->|Policy & Store Inquiries| FAQ[ FAQ Specialist\nStatic & Hybrid Knowledge Search]
+    Router -->|After-Hours / Callbacks| LeadCapture[ Lead & Ticket Specialist\nZendesk REST API + Google Sheets]
+    Router -->|Call Complete| Exit[ Exit Agent\nStructured Disconnect Protocol]
 
     subgraph Integrations [Resilient Enterprise Integrations]
         WISMO --> Sheets[(Google Sheets API\nDynamic Schema & 60s Cache)]
@@ -33,24 +33,24 @@ flowchart TD
 
 ---
 
-## 🌟 Key Engineering Features
+##  Key Engineering Features
 
-### 1. 🛡️ Two-Factor Security Verification for Order Lookups (WISMO)
+### 1.  Two-Factor Security Verification for Order Lookups (WISMO)
 To prevent unauthorized disclosure of customer PII (Personally Identifiable Information) over voice telephony, the Order Specialist implements a strict two-factor verification barrier:
 - **Factor 1**: Telephony Caller ID / Verified Phone Number.
 - **Factor 2**: Invoice Number or Purchase Order Reference (PO).
 - Order status and carrier tracking links are only revealed when both factors match the verified database record.
 
-### 2. ⚡ Latency-Optimized Voice Persona (<40-Word Mandate)
+### 2.  Latency-Optimized Voice Persona (<40-Word Mandate)
 - Real-time voice agents require ultra-fast Time-To-First-Token (TTFT). Prompts enforce a strict **<40-word per turn budget** to deliver crisp, natural conversational cadence without overwhelming the caller.
 
-### 3. 🔄 Resilient CRM Integration & Request Idempotency
+### 3.  Resilient CRM Integration & Request Idempotency
 - **Zendesk API**: Suffixes unique MD5 idempotency keys on ticket creation payloads to eliminate duplicate support tickets during transient network retries.
 - **Google Sheets Client**: Implements runtime header index resolution to prevent hardcoded column drift when spreadsheets are edited by non-technical operators. Features a 60-second in-memory TTL cache to minimize API quota consumption.
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```text
 enterprise-voice-receptionist/
@@ -85,7 +85,7 @@ enterprise-voice-receptionist/
 
 ---
 
-## 🧪 Quick Start & Test Execution
+##  Quick Start & Test Execution
 
 ### 1. Clone & Install Dependencies
 ```bash
@@ -118,7 +118,7 @@ tests/unit/test_zendesk.py ..                                            [100%]
 
 ---
 
-## 🚀 Cloud Run / Vertex AI Deployment
+##  Cloud Run / Vertex AI Deployment
 
 ```bash
 # Set GCP Project
@@ -133,5 +133,5 @@ gcloud run deploy enterprise-voice-receptionist \
 
 ---
 
-## 📄 License
+##  License
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
