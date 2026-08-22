@@ -18,7 +18,7 @@ The system utilizes an intent-routing multi-agent swarm topology to achieve dete
 
 ```mermaid
 flowchart TD
-    InboundCall([📞 Inbound Customer Phone Call]) --> Router[ Router Agent\nIntent Classification & Sentiment Analysis]
+    InboundCall([ Inbound Customer Phone Call]) --> Router[ Router Agent\nIntent Classification & Sentiment Analysis]
     
     Router -->|Order Tracking / Status| WISMO[ WISMO Specialist\nTwo-Factor 2FA Verification]
     Router -->|Policy & Store Inquiries| FAQ[ FAQ Specialist\nStatic & Hybrid Knowledge Search]
