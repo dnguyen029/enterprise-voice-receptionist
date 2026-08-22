@@ -89,8 +89,8 @@ enterprise-voice-receptionist/
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone https://github.com/dnguyen029/enterprise-voice-receptionist.git
-cd enterprise-voice-receptionist
+git clone https://github.com/dnguyen029/receptionist-template.git
+cd receptionist-template
 
 # Create and activate virtual environment
 python3 -m venv .venv
