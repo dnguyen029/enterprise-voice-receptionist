@@ -107,14 +107,6 @@ All unit tests are fully mocked and execute deterministically without cloud cred
 pytest tests/unit/ -v
 ```
 
-Expected Output:
-```text
-============================= test session starts ==============================
-tests/unit/test_environment_sanity.py .                                  [  7%]
-tests/unit/test_wismo_verification.py ..........                         [ 84%]
-tests/unit/test_zendesk.py ..                                            [100%]
-============================== 13 passed in 1.45s ==============================
-```
 
 ---
 
