@@ -4,7 +4,7 @@ import os
 
 import requests
 
-logger = logging.getLogger("google.antigravity.tools.zendesk")
+logger = logging.getLogger("omniretail.tools.zendesk")
 
 
 class ZendeskClient:

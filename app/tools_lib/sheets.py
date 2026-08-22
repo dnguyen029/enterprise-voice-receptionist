@@ -6,7 +6,7 @@ import google.auth
 import requests
 from google.auth.transport.requests import Request
 
-logger = logging.getLogger("google.antigravity.tools.sheets")
+logger = logging.getLogger("omniretail.tools.sheets")
 
 import sys
 
