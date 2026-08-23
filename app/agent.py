@@ -85,35 +85,14 @@ class ReceptionistInput(BaseModel):
 
 
 def extract_telephony_id(state: dict) -> str | None:
-    """Helper to extract telephony caller ID dynamically.
-    Checks prefixed and raw dictionary variants for safety across all environments.
-    """
-    tel_id = (
-        state.get("$session.params.telephony-caller-id")
-        or state.get("telephony-caller-id")
-        or state.get("$session.params.caller_id")
-        or state.get("caller_id")
-        or state.get("$session.params.telephony.caller_id")
-        or state.get("telephony.caller_id")
-    )
-    if tel_id:
-        return tel_id
-
-    for key in ("$session.params.telephony", "telephony"):
-        telephony = state.get(key)
-        if isinstance(telephony, dict):
-            tel_id = telephony.get("caller_id") or telephony.get("phone_number")
-            if tel_id:
-                return tel_id
-
-    return None
+    """Helper to extract telephony caller ID from canonical ADK session state."""
+    return state.get("caller_id") or state.get("telephony-caller-id")
 
 
 def apply_caller_id(state: dict, caller_id: str) -> None:
-    """Helper to safely write caller ID into the state dictionary using both namespaces."""
+    """Write caller ID into canonical state keys for ADK tools and prompt interpolation."""
     state["caller_id"] = caller_id
-    state["$session.params.caller_id"] = caller_id
-    state["$session.params.telephony-caller-id"] = caller_id
+    state["telephony-caller-id"] = caller_id
 
 
 def sub_agent_callback(callback_context):
@@ -139,7 +118,7 @@ def wismo_sub_agent_callback(callback_context):
     if caller_id:
         apply_caller_id(state, caller_id)
 
-        if not state.get("auto_wismo_result") and not state.get("$session.params.auto_wismo_result"):
+        if not state.get("auto_wismo_result"):
             try:
                 from app.tools_lib import SheetsClient
                 mock_sheet_id = os.environ.get("WISMO_SPREADSHEET_ID")
@@ -149,7 +128,6 @@ def wismo_sub_agent_callback(callback_context):
                     if result is not None:
                         wismo_res = json.dumps({"success": True, **result})
                         state["auto_wismo_result"] = wismo_res
-                        state["$session.params.auto_wismo_result"] = wismo_res
             except Exception as e:
                 logger.warning(f"WISMO pre-fetch failed in callback: {e}")
     return None
@@ -231,10 +209,11 @@ def before_agent_callback(callback_context):
     
     caller_id = extract_telephony_id(state)
     if caller_id:
-        current_id = state.get("caller_id") or state.get("$session.params.caller_id")
+        current_id = state.get("caller_id")
         if not current_id or current_id != caller_id:
             apply_caller_id(state, caller_id)
     return None
+
 
 
 router_agent = Agent(
